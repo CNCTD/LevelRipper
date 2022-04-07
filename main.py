@@ -34,6 +34,7 @@ def to_xml(savefile: str = 'CCLocalLevels.dat') -> None:
         decompressed_data = zlib.decompress(decoded_data[10:], -zlib.MAX_WBITS)
         with open(f'{savefile}.xml', 'wb') as f:
                         f.write(decompressed_data)
+        return decompressed_data
 
 def dump_level_names(xmlfile: str = 'CCLocalLevels.dat.xml') -> None:
     parser = ET.XMLParser(encoding="utf-8")
