@@ -25,7 +25,7 @@ def print_menu() -> None:
 def xor_bytes(data: bytes, value: int) -> bytes:
     return bytes(map(lambda x: x ^ value, data))
 
-def to_xml(savefile):
+def to_xml(savefile: str = 'CCLocalLevels.dat') -> None:
     with open(savefile, 'rb') as f:
         encrypted_data = f.read()
 
@@ -35,7 +35,7 @@ def to_xml(savefile):
         with open(f'{savefile}.xml', 'wb') as f:
                         f.write(decompressed_data)
 
-def dump_level_names(xmlfile):
+def dump_level_names(xmlfile: str = 'CCLocalLevels.dat.xml') -> None:
     parser = ET.XMLParser(encoding="utf-8")
     with open(xmlfile, 'r') as f:
         xmlstring = f.read()
@@ -55,7 +55,7 @@ def dump_level_names(xmlfile):
     print(f'{len(levels)} levels found!')
     print('Saved to levels.txt')
 
-def dump_level_gmd(name, xmlfile):
+def dump_level_gmd(name, xmlfile: str = 'CCLocalLevels.dat.xml') -> None:
     with open('default.gmd', 'r') as f:
             default_data = f.read()
     parser = ET.XMLParser(encoding="utf-8")
@@ -96,28 +96,26 @@ def main():
         except ValueError as err:
             sys.exit()
         if index == 1:
-            savefile = input('Enter save file name: ')
-            to_xml(savefile)
+            
+            to_xml()
             input('Save file has been converted to an xml file, press enter to exit.')
             
         elif index == 2:
-            xmlfile = input('Enter xml file name: ')
-            dump_level_names(xmlfile)
+            dump_level_names()
             input('Level names have been dumped, press enter to exit.')
             
         elif index == 3:
             name = input('Enter level name: ')
-            xmlfile = input('Enter xml file name: ')
-            dump_level_gmd(name, xmlfile)
+            dump_level_gmd(name)
             input('Level has been dumped, press enter to exit.')
             
         elif index == 4:
             #read levels.txt
-            xmlfile = input('Enter xml file name: ')
+            
             with open('levels.txt', 'r') as f:
                 levels = f.read().splitlines()
             for i in levels:
-                dump_level_gmd(i, xmlfile)
+                dump_level_gmd(i)
             input('All levels have been dumped, press enter to exit.')
             
         else:
